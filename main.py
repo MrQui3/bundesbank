@@ -27,7 +27,7 @@ class bank:
         return gesamt_wert
 
     def prio_berechnen(self):
-        return self.gesamt_wert/(self.registrierung+self.verkauf_zeit)
+        return self.gesamt_wert/self.registrierung
 
 class coin:
     def __init__(self, wertigkeit, id):
@@ -55,7 +55,7 @@ def read_data_from_file(file_name):
 
 
 
-m_anzahl, b_anzahl, d_anzahl, wertigkeiten, banken = read_data_from_file('f_banks_of_the_world.txt')
+m_anzahl, b_anzahl, d_anzahl, wertigkeiten, banken = read_data_from_file('d_tough_choices.txt')
 
 for i in range(b_anzahl):
     banken[i].m = sorted(banken[i].m, key=lambda c: c.wertigkeit, reverse=True)
