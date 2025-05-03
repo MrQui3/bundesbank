@@ -7,7 +7,7 @@ class bank:
         self.registrierung = registrierung
         self.anzahl_pro_tag = anzahl_pro_tag
         self.id = id
-
+# hallo welt
 
 class coin:
     def __init__(self, wertigkeit, id):
