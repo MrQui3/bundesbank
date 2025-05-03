@@ -4,30 +4,29 @@ import math
 
 class bank:
     def __init__(self, m_anzahl, m, registrierung, anzahl_pro_tag, id):
-        self.m_anzahl = m_anzahl
         self.m = m
         self.registrierung = registrierung
         self.anzahl_pro_tag = anzahl_pro_tag
         self.id = id
-        self.verkauf_zeit = math.ceil(self.m_anzahl / self.anzahl_pro_tag)
+        self.verkauf_zeit = self.verkaufzeit_berechnen()
         self.gesamt_wert = self.gesamt_wert_berechnen()
         self.prio = self.prio_berechnen()
 
 
     def gesamt_wert_berechnen(self):
         gesamt_wert = 0
-        a = 0
         for i in range(len(self.m)):
             if self.m[i].besucht:
                 continue
             gesamt_wert += self.m[i].wertigkeit
-            a += 1
 
-        self.m_anzahl = a
         return gesamt_wert
 
+    def verkaufzeit_berechnen(self):
+        return math.ceil(len(self.m) / self.anzahl_pro_tag)
+
     def prio_berechnen(self):
-        return self.gesamt_wert/(self.registrierung+self.verkauf_zeit)
+        return self.gesamt_wert_berechnen()/(self.registrierung+self.verkaufzeit_berechnen())
 
 class coin:
     def __init__(self, wertigkeit, id):
@@ -55,7 +54,7 @@ def read_data_from_file(file_name):
 
 
 
-m_anzahl, b_anzahl, d_anzahl, wertigkeiten, banken = read_data_from_file('f_banks_of_the_world.txt')
+m_anzahl, b_anzahl, d_anzahl, wertigkeiten, banken = read_data_from_file('e_so_many_coins.txt')
 
 for i in range(b_anzahl):
     banken[i].m = sorted(banken[i].m, key=lambda c: c.wertigkeit, reverse=True)
@@ -80,6 +79,10 @@ for i in range(d_anzahl):
         if len(banken) == 0:
             registriertende_bank = None
         else:
+            for i in range(len(banken)):
+                banken[i].prio = banken[i].prio_berechnen()
+                if banken[i].id == 4:
+                    print(banken[i].prio)
             banken = sorted(banken, key=lambda b: b.prio, reverse=True)
             registriertende_bank = banken[0]
             rest_registrierung_zeit = banken[0].registrierung
@@ -96,7 +99,7 @@ for i in range(d_anzahl):
             if len(registrierte_banken[k].m) == 0:
                 break
 
-            if registrierte_banken[k].m_anzahl > 0:
+            if len(registrierte_banken[k].m) > 0:
                 gescannte_münzen[k].append(registrierte_banken[k].m[0].id)
                 registrierte_banken[k].m[0].besucht = True
                 registrierte_banken[k].m.pop(0)
@@ -108,12 +111,10 @@ for i in range(len(registrierte_banken)):
     if len(gescannte_münzen[i]) == 0:
         a += 1
 
-
+exit()
 
 print(f"{len(registrierte_banken)-a}")
 for i in range(len(registrierte_banken)):
-    if len(gescannte_münzen[i]) == 0:
-        continue
     print(f"{registrierte_banken[i].id} {len(gescannte_münzen[i])}")
     print(" ".join(map(str, gescannte_münzen[i])))
 
