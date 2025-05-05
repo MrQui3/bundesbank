@@ -118,28 +118,3 @@ for i in range(len(registrierte_banken)):
     print(" ".join(map(str, gescannte_münzen[i])))
 
 
-
-
-
-
-
-
-'''def rest_gesat_wert(banken, tage):
-    gesamt_wert = []
-    for i in range(len(banken)):
-        rest_tage = tage - banken[i].registrierung
-        gesamt_wert.append(0)
-        for j in range(rest_tage):
-            if rest_tage > 0:
-                for k in range(banken[i].anzahl_pro_tag):
-                    if len(banken[i].m) == 0:
-                        break
-                    gesamt_wert[i] += banken[i].m[0].wertigkeit
-                    banken[i].m.pop(0)
-            else:
-                break
-            rest_tage -= 1
-    return gesamt_wert'''
-
-
-
